@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "generated": "2026-09-30",
+  "disclosure": "Concept imagery; not Landry's customer work",
+  "assets": [
+    {
+      "path": "public/images/cinematic/wheel-wash-concept.webp",
+      "prompt": "Use case: ads-marketing. Asset type: cinematic automotive detailing concept image for a mobile detailing website, landscape 3:2 composition. Primary request: a photorealistic commercial close-up of a black truck's front wheel, tire and adjoining wet black bodywork during a careful wash. Dense white wash foam, a few suspended water droplets, controlled silver reflections, a clean unbranded blue detailing brush at the very edge. Low camera angle, wheel occupies the right half with quiet deep shadow on the left. Physically plausible wheel spokes, tire tread, liquid and foam. Scene is a simple residential driveway at blue hour, background fully out of focus. Premium automotive commercial photography, restrained cool navy atmosphere, white highlights; no neon, no gold, no colored light effects. Materials show real texture; not a plastic 3D render. This is illustrative concept artwork and will be labeled as such, never represented as a client job. No people, no faces, no logos, no badges, no text, no watermark, no collage, no graphic design.",
+      "optimization": "WebP quality 85; original generated PNG preserved",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "path": "public/images/cinematic/interior-concept.webp",
+      "prompt": "Use case: ads-marketing. Asset type: cinematic automotive interior concept photograph for a detailing website, landscape 3:2 composition. Primary request: photorealistic close view through an open passenger door of a clean contemporary truck/SUV cabin. Black leather front seats with natural stitching, tidy dark center console, fine grain and soft texture. Frame the sculpted passenger seat in the foreground and dashboard softly behind, realistic scale, believable vehicle construction. Quiet cool navy shadows, controlled neutral white natural highlights, soft daylight from a residential driveway, darkened background. High-end automotive commercial photography without looking like a 3D render. Emphasize an ordinary well-cared-for vehicle's interior rather than a supercar or futuristic showroom. This is illustrative concept artwork and will be labeled as such, never represented as a client job. No people, no logos, no brand name, no text, no watermark, no glowing ambient neon, no gold accents, no collage, no graphic design.",
+      "optimization": "WebP quality 85; original generated PNG preserved",
+      "width": 1536,
+      "height": 1024
+    }
+  ]
+}

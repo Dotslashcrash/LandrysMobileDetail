@@ -1,5 +1,6 @@
 import { PageIntro } from "@/components/editorial";
 import { pageMetadata } from "@/lib/seo";
+import { contact } from "@/data/business";
 export const metadata = pageMetadata(
   "Request Terms",
   "How appointment requests work in the Landry’s local website preview.",
@@ -7,21 +8,12 @@ export const metadata = pageMetadata(
 );
 export default function TermsPage() {
   return (
-    <>
-      <PageIntro
-        eyebrow="BEFORE YOU REQUEST"
-        title={
-          <>
-            A CLEAR
-            <br />
-            <em>STARTING POINT.</em>
-          </>
-        }
-      />
+    <div className="paper-page">
+      <PageIntro title="Request terms" />
       <section className="section page-content legal">
         <p className="notice">
-          Terms framework for local preview. Final business terms require owner
-          review before public launch.
+          These terms describe appointment requests in the local demo. Final
+          business terms still need approval before public launch.
         </p>
         <h2>An appointment request is not a booking</h2>
         <p>
@@ -30,9 +22,10 @@ export default function TermsPage() {
         </p>
         <h2>Service scope and pricing</h2>
         <p>
-          Service categories are provided for inquiry. Availability, inclusions,
-          pricing, duration, travel arrangements, and location suitability are
-          confirmed before scheduling. The website does not take payment.
+          The services on this site are available for inquiry. Availability,
+          inclusions, pricing, duration, travel arrangements, and location
+          suitability are confirmed before scheduling. The website does not take
+          payment.
         </p>
         <h2>Policies to be supplied</h2>
         <p>
@@ -40,7 +33,11 @@ export default function TermsPage() {
           requirements, and payment terms will be added once approved by the
           business. No policy is implied by this preview.
         </p>
+        <p>
+          For questions about your request, email{" "}
+          <a href={`mailto:${contact.email}`}>{contact.email}</a>.
+        </p>
       </section>
-    </>
+    </div>
   );
 }

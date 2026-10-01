@@ -47,8 +47,19 @@ async function main() {
   );
   for (const asset of [
     "/favicon.svg",
-    "/fonts/display.woff2",
+    "/fonts/saira-condensed-semibold.ttf",
+    "/fonts/saira-condensed-bold.ttf",
+    "/fonts/saira-condensed-extrabold.ttf",
+    "/fonts/telegraf-regular.otf",
+    "/fonts/telegraf-ultrabold.otf",
+    "/brand/logo.webp",
+    "/brand/logo-family.webp",
+    "/brand/submark.webp",
+    "/brand/speedline.webp",
+    "/brand/apple-touch-icon.png",
     "/images/hero.webp",
+    "/images/cinematic/wheel-wash-concept.webp",
+    "/images/cinematic/interior-concept.webp",
     "/_next/image?url=%2Fimages%2Fhero.webp&w=640&q=85",
   ])
     assert.equal((await fetch(origin + asset)).status, 200, asset);

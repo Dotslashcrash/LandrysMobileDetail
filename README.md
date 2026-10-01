@@ -2,6 +2,8 @@
 
 Cinematic mobile detailing foundation for Northwest Arkansas and the Arkansas River Valley. Next.js App Router, React, TypeScript, Zod, Node 24, and an encrypted SQLite local lead inbox.
 
+Version **1.0.0** is the owner-approved GitHub baseline on `main`, tagged `v1.0.0`. Release details are in `CHANGELOG.md`. Publishing this source does not deploy the Azure demo; the existing Azure build is separate from this version.
+
 ## Run on this PC
 
 Use Node.js 24 or newer, from this directory:
@@ -70,6 +72,7 @@ Never prefix credentials with `NEXT_PUBLIC_`. Metadata/indexing changes require 
 
 - `src/app`: requested routes, metadata, sitemap, robots, branded loading/error/404, lead endpoint.
 - `src/components`: editorial sections, navigation, accessible comparison slider, seven-step form.
+- `src/content/service-copy.ts`: customer-facing descriptions, practical questions, and related service links, separate from the protected catalog and CRM mappings.
 - `src/data/business.ts`: typed services, market overrides, approved cities, gallery, reviews, FAQ, contacts, future content collections. Inquiry categories do not imply approved packages.
 - `src/lib/booking-schema.ts`: shared vehicle/customer/location validation and request contract.
 - `src/lib/lead-store.ts`: replaceable durable inbox with encryption and idempotency.
@@ -78,6 +81,8 @@ Never prefix credentials with `NEXT_PUBLIC_`. Metadata/indexing changes require 
 - `src/lib/analytics.ts`: finite event vocabulary without arbitrary customer values. UTMs stay in session storage and accompany only the private lead request.
 
 Service routes derive from the catalog. Market pricing, duration, availability, travel rules, promotions, and approved municipalities have data slots; no city page or pricing is invented. Media supports categories, dimensions, captions, and before-image pairs. The keyboard-accessible comparison slider appears only when real pairs are populated. Reviews and unanswered FAQ entries remain hidden until approved.
+
+The full-site human remaster uses the approved brand-kit headline, a shorter photographic homepage, white service pages, direct email contact, and an unboxed request flow. The fixed header provides mobile booking access without a duplicate floating bar. See the current report in `QA.md`; earlier reports are retained there as history.
 
 ## Completing Urable
 
@@ -94,11 +99,17 @@ Before ephemeral/serverless hosting, replace or move the inbox to a durable data
 
 - Approved packages, inclusions, durations, prices, add-ons, market variations.
 - Confirmed city/ZIP coverage, travel rules, water/power/site requirements, weather and cancellation policies.
-- Phone, email, social links, privacy contact, story/team details, final legal policies.
+- Phone, social links, story/team details, final legal policies. The owner-approved business and privacy contact is `info@landrysmobiledetail.com`.
 - Real customer photos with permission, matched before/after pairs, authentic reviews with sources.
 - Urable documentation/configuration and approved analytics/consent requirements.
 
-The generated vehicle image is explicitly identified as concept artwork, not portfolio evidence. Locally served Oswald uses the SIL Open Font License (`public/fonts/OFL.txt`). There are no third-party image/font requests. Responsive optimized images, lazy loading, and reduced-motion support are included. No Core Web Vitals score is claimed without field data.
+The generated vehicle image is explicitly identified as concept artwork, not portfolio evidence. The September 30 brand update uses the supplied Landry’s logos, LD submark, yellow speedline, Saira Condensed headings, and Telegraf body/interface text. The owner confirmed Telegraf is fully licensed. Fonts are served locally; the older Oswald asset and its license remain archived in `public/fonts` and are no longer used by the theme. There are no third-party image/font requests. Responsive optimized images, lazy loading, and reduced-motion support are included. No Core Web Vitals score is claimed without field data.
+
+## Brand kit application
+
+The supplied color sheet defines yellow `#FCED05`, navy `#053065`, white `#FFFFFF`, and steel gray `#99A5B3`. A deeper navy backdrop and translucent navy overlays retain the cinematic photography treatment. The original artwork is preserved: transparent logo exports are trimmed to their visible bounds and losslessly optimized into `public/brand`, with white angled panels providing contrast for the navy lettering. The LD submark is also used for the favicon and Apple touch icon.
+
+Saira Condensed 600/700/800 and Telegraf 400/800 files come from the supplied font archives. Saira’s license is included in `public/fonts/SairaCondensed-OFL.txt`. Their font families, the four brand colors, and related theme values are defined in `src/app/globals.css`. The primary header logo omits the family descriptor for legibility; the larger footer logo includes it. Yellow dividers and diagonal details draw from the kit’s social direction while retaining the existing full-screen hero, editorial spacing, motion, and page structure. Social mockup photos are reference material, and have not been added as customer portfolio evidence.
 
 ## Validation
 
@@ -109,4 +120,4 @@ npm test
 npm run build
 ```
 
-Tests cover invalid requests, encryption, duplicate prevention, provider fallback, origin/size checks, and storage failure. See `QA.md` for browser checks and launch dependencies. Work belongs on `codex/cinematic-foundation`; do not merge without owner instruction.
+Tests cover invalid requests, encryption, duplicate prevention, provider fallback, origin/size checks, and storage failure. See `QA.md` for browser checks and launch dependencies. `main` contains the approved version 1 baseline; use `codex/` branches for subsequent changes.

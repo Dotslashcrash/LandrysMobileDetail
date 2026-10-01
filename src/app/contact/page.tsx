@@ -4,70 +4,50 @@ import { contact } from "@/data/business";
 import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata(
   "Contact",
-  "Start a detailing request with Landry’s Mobile Detail in Northwest Arkansas and the River Valley.",
+  "Contact Landry’s Mobile Detail at info@landrysmobiledetail.com or send a detailing request.",
   "/contact",
 );
 export default function ContactPage() {
   return (
-    <>
-      <PageIntro
-        eyebrow="LET’S TALK ABOUT YOUR RIDE"
-        title={
-          <>
-            GOOD DETAILS
-            <br />
-            <em>START HERE.</em>
-          </>
-        }
-      >
+    <div className="paper-page contact-page">
+      <PageIntro title="Contact Landry’s">
+        {contact.email && (
+          <a className="contact-email" href={`mailto:${contact.email}`}>
+            {contact.email}
+          </a>
+        )}
         <p>
-          Looking for a fresh start for your vehicle? Send us its details and
-          we’ll discuss the next step.
+          For a question about your vehicle or the work you have in mind, email
+          us. Include your vehicle and location so we know what you’re asking
+          about.
         </p>
+        {contact.phone && (
+          <p>
+            <a href={`tel:${contact.phone}`}>{contact.phone}</a>
+          </p>
+        )}
+        {contact.socials.map((s) => (
+          <p key={s.url}>
+            <a href={s.url} rel="noopener noreferrer" target="_blank">
+              {s.name}
+            </a>
+          </p>
+        ))}
       </PageIntro>
-      <section className="section page-content">
-        <div className="split-content">
-          <div className="editorial-panel">
-            <h2>REQUEST A DETAIL</h2>
-            <p>
-              Share your vehicle, service interests, and location. Your request
-              gives us what we need to start planning.
-            </p>
-            <Link href="/book" className="button">
-              Get started ↗
-            </Link>
-          </div>
-          <div className="editorial-panel">
-            <h2>HERE IN ARKANSAS.</h2>
-            <p>
-              Northwest Arkansas
-              <br />
-              Arkansas River Valley
-            </p>
-            {contact.phone && (
-              <p>
-                <a href={`tel:${contact.phone}`}>{contact.phone}</a>
-              </p>
-            )}
-            {contact.email && (
-              <p>
-                <a href={`mailto:${contact.email}`}>{contact.email}</a>
-              </p>
-            )}
-            {contact.socials.map((s) => (
-              <p key={s.url}>
-                <a href={s.url} rel="noopener noreferrer" target="_blank">
-                  {s.name} ↗
-                </a>
-              </p>
-            ))}
-            <p>
-              Appointments and exact location coverage are confirmed after we
-              review your request.
-            </p>
-          </div>
-        </div>
+      <section className="section page-content contact-request">
+        <h2>Requesting an appointment?</h2>
+        <p>
+          The request form keeps your vehicle details, address, and preferred
+          time together. We’ll contact you to agree on the work and scheduling.
+        </p>
+        <Link href="/book" className="button">
+          Book your detail
+        </Link>
+        <p className="contact-region">
+          Northwest Arkansas and the Arkansas River Valley.{" "}
+          <Link href="/service-area">Service area details</Link>.
+        </p>
       </section>
-    </>
+    </div>
   );
 }

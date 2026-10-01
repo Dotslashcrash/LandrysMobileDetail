@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowUpRight } from "lucide-react";
 import { services } from "@/data/business";
 import { PageIntro } from "@/components/editorial";
+import { Photograph } from "@/components/photograph";
+import { photography } from "@/content/photography";
+import { serviceCopy } from "@/content/service-copy";
 import { pageMetadata } from "@/lib/seo";
 export const dynamicParams = false;
 export function generateStaticParams() {
@@ -16,7 +18,11 @@ export async function generateMetadata({
   const { service } = await params;
   const found = services.find((s) => s.id === service);
   return found
-    ? pageMetadata(found.name, found.description, `/services/${service}`)
+    ? pageMetadata(
+        found.name,
+        serviceCopy[service].introduction,
+        `/services/${service}`,
+      )
     : {};
 }
 export default async function ServicePage({
@@ -27,24 +33,27 @@ export default async function ServicePage({
   const { service } = await params;
   const item = services.find((s) => s.id === service);
   if (!item) notFound();
+  const copy = serviceCopy[item.id];
   return (
-    <>
-      <PageIntro eyebrow={item.name} title={<>{item.tagline}</>}>
-        <p>{item.description}</p>
+    <div className="paper-page service-page">
+      <PageIntro title={item.name} className="service-intro">
+        <p>{copy.introduction}</p>
+        <Link href={`/book?service=${item.id}`} className="button">
+          Book your detail
+        </Link>
       </PageIntro>
-      <section className="section page-content">
+      <section className="section page-content service-detail-content">
         <nav className="breadcrumb" aria-label="Breadcrumb">
-          <Link href="/">Home</Link> / <Link href="/services">Services</Link> /{" "}
-          {item.name}
+          <Link href="/">Home</Link> <span aria-hidden="true">›</span>{" "}
+          <Link href="/services">Services</Link>{" "}
+          <span aria-hidden="true">›</span> {item.name}
         </nav>
-        <div className="split-content">
-          <div className="editorial-panel">
-            <h2>YOUR VEHICLE SETS THE PLAN.</h2>
-            <p>
-              Tell us what you drive and the areas you want addressed. We’ll
-              review the condition and location with you before confirming the
-              scope.
-            </p>
+        <div className="service-detail-layout">
+          <div className="service-discussion">
+            <h2>{copy.heading}</h2>
+            {copy.paragraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
             {item.features.length > 0 && (
               <ul>
                 {item.features.map((feature) => (
@@ -52,12 +61,16 @@ export default async function ServicePage({
                 ))}
               </ul>
             )}
-            <Link href={`/book?service=${item.id}`} className="button">
-              Ask about {item.name} <ArrowUpRight size={18} />
-            </Link>
+            {item.id === "interior-detail" && (
+              <Photograph
+                image={photography.interior}
+                className="service-cabin"
+                sizes="(max-width:800px) 100vw, 55vw"
+              />
+            )}
           </div>
-          <div className="editorial-panel">
-            <h2>THE DETAILS</h2>
+          <aside className="service-practical">
+            <h2>Price and scheduling</h2>
             <p>
               <strong>Pricing</strong>
               <br />
@@ -68,20 +81,25 @@ export default async function ServicePage({
             <p>
               <strong>Time</strong>
               <br />
-              {item.estimatedDuration || "Confirmed with your service scope."}
+              {item.estimatedDuration || "Discussed once the work is agreed."}
             </p>
             <p>
               <strong>Location</strong>
               <br />
-              Mobile service in Northwest Arkansas and the River Valley. Exact
-              address coverage is confirmed before scheduling.
+              Northwest Arkansas and the River Valley. We’ll check your address
+              before arranging a visit.
             </p>
-            <p className="fineprint">
-              Availability and service inclusions are subject to confirmation.
-            </p>
-          </div>
+          </aside>
         </div>
+        <nav className="related-services" aria-label="Related services">
+          {copy.related.map((id) => (
+            <Link key={id} href={`/services/${id}`}>
+              {services.find((service) => service.id === id)?.name}
+            </Link>
+          ))}
+          <Link href="/services">All services</Link>
+        </nav>
       </section>
-    </>
+    </div>
   );
 }

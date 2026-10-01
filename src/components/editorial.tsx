@@ -1,207 +1,81 @@
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, ArrowDown, MapPin } from "lucide-react";
-import { services, serviceAreas, testimonials } from "@/data/business";
+import { services, testimonials, faq } from "@/data/business";
+import { serviceCopy } from "@/content/service-copy";
+
 export function Testimonials() {
   if (!testimonials.length) return null;
   return (
-    <section className="section testimonials">
-      <Eyebrow>FROM THE DRIVER’S SEAT</Eyebrow>
-      <h2>
-        THEIR WORDS.
-        <br />
-        <em>THEIR RIDES.</em>
-      </h2>
+    <section className="customer-voices section">
+      <h2>Customer reviews</h2>
       {testimonials.map((review) => (
-        <figure className="editorial-panel" key={review.id}>
-          <blockquote className="large-copy">“{review.review}”</blockquote>
+        <figure key={review.id}>
+          <blockquote>{review.review}</blockquote>
           <figcaption>
-            {review.firstName} · {review.vehicle} · {review.city}
-            <br />
+            {review.firstName} · {review.vehicle} · {review.city}{" "}
             <a
-              className="text-link"
               href={review.sourceUrl}
               target="_blank"
               rel="noopener noreferrer"
             >
               {review.source}
             </a>{" "}
-            · <time dateTime={review.date}>{review.date}</time>
+            <time dateTime={review.date}>{review.date}</time>
           </figcaption>
         </figure>
       ))}
     </section>
   );
 }
-export function Eyebrow({
-  children,
-  number,
-}: {
-  children: React.ReactNode;
-  number?: string;
-}) {
-  return (
-    <p className="eyebrow">
-      {number && <span>{number} / </span>}
-      {children}
-    </p>
-  );
-}
-export function ServiceList({ all = false }: { all?: boolean }) {
+
+export function ServiceList({ ids }: { ids: string[] }) {
   return (
     <div className="service-list">
-      {(all ? services : services.slice(0, 3)).map((service, i) => (
-        <Link
-          className="service-row"
-          key={service.id}
-          href={`/services/${service.id}`}
-        >
-          <span className="service-number">
-            {String(i + 1).padStart(2, "0")}
-          </span>
-          <div>
-            <h3>{service.name}</h3>
-            <p>{service.tagline}</p>
-          </div>
-          <span className="service-description">{service.description}</span>
-          <ArrowUpRight className="service-arrow" size={28} />
-        </Link>
-      ))}
+      {ids.map((id) => {
+        const service = services.find((item) => item.id === id);
+        if (!service) return null;
+        return (
+          <article key={id}>
+            <h3>
+              <Link href={`/services/${id}`}>{service.name}</Link>
+            </h3>
+            <p>{serviceCopy[id].short}</p>
+          </article>
+        );
+      })}
     </div>
   );
 }
-export function FinalCTA() {
+
+export function Questions() {
   return (
-    <section className="final-cta">
-      <Image
-        src="/images/hero.webp"
-        alt="Cinematic concept of a polished dark vehicle on wet pavement"
-        fill
-        sizes="100vw"
-      />
-      <div className="final-content">
-        <Eyebrow>YOUR NEXT GOOD DRIVE STARTS HERE</Eyebrow>
-        <h2>
-          READY TO LOVE
-          <br />
-          YOUR CAR <em>AGAIN?</em>
-        </h2>
-        <Link href="/book" className="button">
-          Book your detail <ArrowUpRight size={18} />
-        </Link>
-        <p>Tell us what you drive. We’ll take it from there.</p>
-      </div>
-    </section>
-  );
-}
-export function Coverage() {
-  return (
-    <section className="section coverage">
-      <div>
-        <Eyebrow number="05">LOCAL ROADS. HIGH STANDARDS.</Eyebrow>
-        <h2>
-          OUR KIND
-          <br />
-          OF <em>COUNTRY.</em>
-        </h2>
-        <p className="body-copy">
-          From Northwest Arkansas to the River Valley.
-          <br />
-          Professional detailing, brought to you.
-        </p>
-        <Link href="/service-area" className="text-link">
-          Find your service area <ArrowUpRight size={18} />
-        </Link>
-      </div>
-      <div className="markets">
-        {serviceAreas.map((area) => (
-          <div key={area.id} className="market">
-            <MapPin size={20} />
-            <div>
-              <span className="eyebrow">{area.short} / MOBILE SERVICE</span>
-              <h3>{area.name}</h3>
-              <p>At your location. By appointment.</p>
-            </div>
-            <ArrowUpRight size={22} />
-          </div>
+    <section className="questions">
+      <h2>Questions before you book</h2>
+      {faq
+        .filter((item) => item.answer)
+        .map((item) => (
+          <details key={item.question}>
+            <summary>
+              {item.question}
+              <span aria-hidden="true">+</span>
+            </summary>
+            <p>{item.answer}</p>
+          </details>
         ))}
-      </div>
     </section>
   );
 }
-export function Process() {
-  return (
-    <section id="process" className="section process">
-      <div className="section-head">
-        <div>
-          <Eyebrow number="04">NO WAITING ROOM REQUIRED</Eyebrow>
-          <h2>
-            YOUR PLACE.
-            <br />
-            <em>OUR PROCESS.</em>
-          </h2>
-        </div>
-        <p className="body-copy">
-          A better-looking car shouldn’t take your whole day off track. Here’s
-          how we bring the detail to you.
-        </p>
-      </div>
-      <div className="process-grid">
-        {[
-          [
-            "01",
-            "MAKE IT YOURS",
-            "Tell us what you drive, what it needs, and where you are.",
-          ],
-          [
-            "02",
-            "MAKE A PLAN",
-            "We confirm coverage, discuss the work, and agree on a time.",
-          ],
-          [
-            "03",
-            "WE COME TO YOU",
-            "Your vehicle gets the attention it deserves at your location.",
-          ],
-          [
-            "04",
-            "TAKE IT ALL IN",
-            "A final walkaround. A fresh feeling. Back to your day.",
-          ],
-        ].map(([n, title, text]) => (
-          <div className="process-step" key={n}>
-            <span>{n}</span>
-            <h3>{title}</h3>
-            <p>{text}</p>
-          </div>
-        ))}
-      </div>
-      <div className="craft-line">
-        <span>INSPECT</span>
-        <ArrowDown size={14} />
-        <span>PREP</span>
-        <ArrowDown size={14} />
-        <span>REFINE</span>
-        <ArrowDown size={14} />
-        <span>PROTECT</span>
-        <ArrowDown size={14} />
-        <span>REVEAL</span>
-      </div>
-    </section>
-  );
-}
+
 export function PageIntro({
-  eyebrow,
   title,
   children,
+  className = "",
 }: {
-  eyebrow: string;
   title: React.ReactNode;
   children?: React.ReactNode;
+  className?: string;
 }) {
   return (
-    <div className="page-intro section">
-      <Eyebrow>{eyebrow}</Eyebrow>
+    <div className={`page-intro section quiet-intro ${className}`}>
       <h1>{title}</h1>
       {children && <div className="intro-copy">{children}</div>}
     </div>

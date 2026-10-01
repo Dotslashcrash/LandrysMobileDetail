@@ -1,26 +1,23 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ArrowUpRight, Menu, X } from "lucide-react";
-import { branding } from "@/data/business";
+import { Menu, X } from "lucide-react";
+import { branding, contact } from "@/data/business";
 import { readAttribution } from "@/lib/analytics";
 const links = [
   ["Services", "/services"],
-  ["The Results", "/results"],
-  ["How It Works", "/#process"],
-  ["Service Area", "/service-area"],
+  ["Results", "/results"],
+  ["How it works", "/#process"],
+  ["Service area", "/service-area"],
+  ["Contact", "/contact"],
 ] as const;
 export function Header() {
   const path = usePathname();
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     readAttribution();
-    const onScroll = () => setScrolled(window.scrollY > 70);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
   }, []);
   useEffect(() => {
     const close = (event: KeyboardEvent) => {
@@ -31,15 +28,20 @@ export function Header() {
   }, []);
   return (
     <>
-      <header
-        className={`header ${scrolled || path !== "/" || open ? "solid" : ""}`}
-      >
+      <header className="header">
         <Link
           href="/"
-          className="wordmark"
+          className="brand-logo"
           aria-label="Landry’s Mobile Detail home"
         >
-          LANDRY’S<span>MOBILE DETAIL</span>
+          <Image
+            src="/brand/logo.webp"
+            alt="Landry’s Mobile Detail"
+            width={960}
+            height={243}
+            sizes="(max-width: 480px) 150px, (max-width: 1100px) 200px, 240px"
+            loading="eager"
+          />
         </Link>
         <nav className="desktop-nav" aria-label="Main navigation">
           {links.map(([label, href]) => (
@@ -53,7 +55,7 @@ export function Header() {
           ))}
         </nav>
         <Link href="/book" className="button small header-book">
-          Book now <ArrowUpRight size={16} />
+          Book now
         </Link>
         <button
           className="menu-toggle"
@@ -70,14 +72,11 @@ export function Header() {
             className="mobile-nav"
             aria-label="Mobile navigation"
           >
-            {[...links, ["About", "/about"], ["Contact", "/contact"]].map(
-              ([label, href]) => (
-                <Link key={href} href={href} onClick={() => setOpen(false)}>
-                  {label}
-                  <ArrowUpRight size={18} />
-                </Link>
-              ),
-            )}
+            {[...links, ["About", "/about"]].map(([label, href]) => (
+              <Link key={href} href={href} onClick={() => setOpen(false)}>
+                {label}
+              </Link>
+            ))}
             <Link
               className="button"
               href="/book"
@@ -88,11 +87,6 @@ export function Header() {
           </nav>
         )}
       </header>
-      {scrolled && path !== "/book" && (
-        <Link href="/book" className="mobile-book button">
-          Book your detail <ArrowUpRight size={18} />
-        </Link>
-      )}
     </>
   );
 }
@@ -100,16 +94,30 @@ export function Footer() {
   return (
     <footer>
       <div className="footer-top">
-        <Link href="/" className="wordmark">
-          LANDRY’S<span>MOBILE DETAIL</span>
+        <Link
+          href="/"
+          className="brand-logo footer-logo"
+          aria-label="Landry’s Mobile Detail home"
+        >
+          <Image
+            src="/brand/logo-family.webp"
+            alt="Landry’s Mobile Detail — A Stidham Family Co."
+            width={1200}
+            height={338}
+            sizes="280px"
+          />
         </Link>
         <p>
-          {branding.statement}
-          <br />
-          <span>{branding.region}</span>
+          {branding.region}
+          {contact.email && (
+            <>
+              <br />
+              <a href={`mailto:${contact.email}`}>{contact.email}</a>
+            </>
+          )}
         </p>
         <Link href="/book" className="text-link">
-          Let’s get your car on the calendar <ArrowUpRight size={18} />
+          Request a detail
         </Link>
       </div>
       <div className="footer-bottom">
@@ -120,7 +128,6 @@ export function Footer() {
           <Link href="/privacy">Privacy</Link>
           <Link href="/terms">Terms</Link>
         </nav>
-        <span>ARKANSAS. AT YOUR ADDRESS.</span>
       </div>
     </footer>
   );

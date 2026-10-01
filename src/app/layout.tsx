@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Header, Footer } from "@/components/shell";
 import { siteUrl } from "@/lib/seo";
+import { contact } from "@/data/business";
 import "./globals.css";
+import "./cinematic.css";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
@@ -9,9 +11,9 @@ export const metadata: Metadata = {
     template: "%s | Landry’s Mobile Detail",
   },
   description:
-    "Professional mobile automotive detailing in Northwest Arkansas and the Arkansas River Valley. Your car. Your driveway. Our standard.",
+    "Mobile detailing at your home or workplace in Northwest Arkansas and the Arkansas River Valley. Interior, exterior, paint care, and protection inquiries.",
   alternates: { canonical: "/" },
-  icons: { icon: "/favicon.svg" },
+  icons: { icon: "/favicon.svg", apple: "/brand/apple-touch-icon.png" },
   robots: {
     index: process.env.ALLOW_INDEXING === "true",
     follow: process.env.ALLOW_INDEXING === "true",
@@ -24,7 +26,8 @@ export const metadata: Metadata = {
     locale: "en_US",
     siteName: "Landry’s Mobile Detail",
     title: "Landry’s Mobile Detail",
-    description: "Your car. Your driveway. Our standard.",
+    description:
+      "Mobile detailing at your home or workplace in Northwest Arkansas and the River Valley.",
   },
   twitter: {
     card: "summary",
@@ -32,7 +35,7 @@ export const metadata: Metadata = {
     description: "Mobile detailing in Northwest Arkansas and the River Valley.",
   },
 };
-export const viewport: Viewport = { themeColor: "#101211" };
+export const viewport: Viewport = { themeColor: "#053065" };
 export default function RootLayout({
   children,
 }: {
@@ -42,19 +45,39 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "AutomotiveBusiness",
     name: "Landry’s Mobile Detail",
+    logo: `${siteUrl}/brand/logo-family.webp`,
     url: siteUrl,
+    email: contact.email,
     areaServed: ["Northwest Arkansas", "Arkansas River Valley"],
     description:
       "Mobile automotive detailing in Northwest Arkansas and the Arkansas River Valley.",
   };
   return (
     <html lang="en" data-scroll-behavior="smooth">
+      <head>
+        <link
+          rel="preload"
+          href="/fonts/saira-condensed-bold.ttf"
+          as="font"
+          type="font/ttf"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/telegraf-regular.otf"
+          as="font"
+          type="font/otf"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body>
         <a href="#main" className="skip-link">
           Skip to content
         </a>
         <Header />
-        <main id="main">{children}</main>
+        <main id="main" tabIndex={-1}>
+          {children}
+        </main>
         <Footer />
         <script
           type="application/ld+json"

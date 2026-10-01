@@ -26,7 +26,7 @@ export const contact: {
   phone: string | null;
   email: string | null;
   socials: { name: string; url: string }[];
-} = { phone: null, email: null, socials: [] };
+} = { phone: null, email: "info@landrysmobiledetail.com", socials: [] };
 export const serviceAreas: {
   id: MarketId;
   name: string;

@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Check, CheckCircle2 } from "lucide-react";
 import { services, serviceAreas } from "@/data/business";
 import {
   arkansasDate,
@@ -67,6 +66,12 @@ export function BookingForm({
   useEffect(() => {
     track("booking_started");
   }, []);
+  useEffect(() => {
+    if (result) {
+      heading.current?.focus({ preventScroll: true });
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
+  }, [result]);
   const change = <K extends keyof Draft>(key: K, value: Draft[K]) => {
     setDraft((d) => ({ ...d, [key]: value }));
     setError("");
@@ -218,102 +223,67 @@ export function BookingForm({
   );
   if (result)
     return (
-      <section className="section booking-success">
-        <CheckCircle2 size={44} />
-        <p className="eyebrow">REQUEST RECEIVED</p>
-        <h1>
-          YOUR DETAIL
-          <br />
-          <em>STARTS HERE.</em>
+      <section className="section booking-success request-success">
+        <h1 ref={heading} tabIndex={-1}>
+          {result.status === "confirmed"
+            ? "Appointment confirmed."
+            : "Request received."}
         </h1>
-        <p className="large-copy">
-          Thanks, {draft.customer.firstName}. We have your request.
-        </p>
         <p className="body-copy">
           {result.status === "confirmed"
             ? `Confirmation ${result.confirmationId}. Your confirmed appointment: ${result.confirmedAt}.`
-            : "Your preferred time is not yet booked. Landry’s will review your vehicle and location, then contact you to discuss the work and confirm scheduling."}
+            : "Your preferred time is not yet booked. We’ll contact you to agree on the work and timing."}
         </p>
-        <div className="success-details">{summary}</div>
+        <details className="success-details">
+          <summary>View your request</summary>
+          {summary}
+        </details>
         <p className="fineprint">Request reference: {result.reference}</p>
         <Link href="/" className="button">
-          Back to Landry’s <ArrowRight size={18} />
+          Back to Landry’s
         </Link>
       </section>
     );
   return (
-    <section className="section booking-layout">
-      <aside className="booking-aside">
-        <p className="eyebrow">LET’S GET YOU STARTED</p>
-        <h1>
-          YOUR RIDE.
-          <br />
-          <em>YOUR RESET.</em>
-        </h1>
+    <section className="section request-flow">
+      <div className="request-introduction">
+        <h1>Request a detail.</h1>
         <p className="body-copy">
-          A few details. A better plan.
-          <br />
-          Tell us what your vehicle needs.
+          Send your vehicle details and preferred time. We’ll contact you to
+          arrange the detail; this form does not reserve an appointment.
         </p>
-        <ol className="step-list" aria-label="Request progress">
-          {steps.map((label, index) => (
-            <li
-              key={label}
-              className={
-                index === step ? "active" : index < step ? "complete" : ""
-              }
-              aria-current={index === step ? "step" : undefined}
-            >
-              <span>
-                {index < step ? (
-                  <Check size={13} />
-                ) : (
-                  String(index + 1).padStart(2, "0")
-                )}
-              </span>
-              {index < step ? (
-                <button type="button" onClick={() => go(index)}>
-                  {label}
-                </button>
-              ) : (
-                label
-              )}
-            </li>
-          ))}
-        </ol>
-        <p className="booking-note">
-          This is an appointment request.
-          <br />
-          We’ll confirm availability and pricing with you.
-        </p>
-      </aside>
-      <div className="booking-panel">
-        <div className="booking-progress">
-          <span>STEP {String(step + 1).padStart(2, "0")} / 07</span>
-          <span>{Math.round(((step + 1) / 7) * 100)}%</span>
+      </div>
+      <div className="request-panel">
+        <div
+          className="request-progress"
+          role="progressbar"
+          aria-label="Request progress"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={Math.round(((step + 1) / 7) * 100)}
+          aria-valuetext={steps[step]}
+        >
+          <span style={{ width: `${((step + 1) / 7) * 100}%` }} />
         </div>
-        <div className="progress-track">
-          <div style={{ width: `${((step + 1) / 7) * 100}%` }} />
-        </div>
-        <form onSubmit={submit}>
+        <form
+          onSubmit={submit}
+          aria-describedby={error ? "request-error" : undefined}
+        >
           <h2 tabIndex={-1} ref={heading}>
             {
               [
-                "WHAT DO YOU DRIVE?",
-                "WHAT DOES IT NEED?",
-                "TELL US A LITTLE MORE.",
-                "WHERE SHOULD WE GO?",
-                "WHAT WORKS FOR YOU?",
-                "HOW CAN WE REACH YOU?",
-                "LOOKING GOOD?",
+                "Tell us about your vehicle.",
+                "Choose your service.",
+                "Vehicle condition.",
+                "Your location.",
+                "Preferred time.",
+                "Your contact details.",
+                "Review your request.",
               ][step]
             }
           </h2>
           {step === 0 && (
             <>
-              <p className="form-copy">
-                Start with the vehicle you’d like detailed.
-              </p>
               <div className="field-grid">
                 <Field
                   label="Year"
@@ -379,8 +349,7 @@ export function BookingForm({
           {step === 1 && (
             <>
               <p className="form-copy">
-                Choose your main interest. We’ll confirm what’s right for your
-                vehicle.
+                Choose the main work you want to discuss.
               </p>
               <fieldset className="service-choices">
                 <legend className="sr-only">Service interest</legend>
@@ -403,18 +372,11 @@ export function BookingForm({
                   </label>
                 ))}
               </fieldset>
-              <p className="fineprint">
-                No prices or service availability are assumed. Your quote
-                follows our review.
-              </p>
             </>
           )}
           {step === 2 && (
             <>
-              <p className="form-copy">
-                Select what applies. This helps us prepare; it does not add
-                charges.
-              </p>
+              <p className="form-copy">Select what applies to your vehicle.</p>
               <fieldset className="condition-choices">
                 <legend className="sr-only">Vehicle condition</legend>
                 {conditionOptions.map((c) => (
@@ -456,10 +418,7 @@ export function BookingForm({
           )}
           {step === 3 && (
             <>
-              <p className="form-copy">
-                Enter the location where you’d like the detail. We’ll confirm
-                exact coverage with you.
-              </p>
+              <p className="form-copy">Where will the vehicle be detailed?</p>
               <div className="field-grid">
                 <label className="field full">
                   Your region
@@ -513,17 +472,13 @@ export function BookingForm({
                   maxLength={5}
                 />
               </div>
-              <p className="notice">
-                Your address will be reviewed for service coverage. Choosing a
-                region does not guarantee availability.
-              </p>
             </>
           )}
           {step === 4 && (
             <>
               <p className="form-copy">
-                Choose a preferred date and time of day. These are requests, not
-                live appointment slots.
+                Suggest a date and time of day. We’ll check availability with
+                you.
               </p>
               <div className="field-grid">
                 <Field
@@ -554,16 +509,15 @@ export function BookingForm({
                   </select>
                 </label>
               </div>
-              <p className="notice">
-                All times refer to Arkansas local time. We’ll contact you to
-                agree on an available appointment.
+              <p className="form-copy">
+                Dates and times are in Arkansas local time.
               </p>
             </>
           )}
           {step === 5 && (
             <>
               <p className="form-copy">
-                We’ll use these details to follow up on your request.
+                How can we reach you about the detail?
               </p>
               <div className="field-grid">
                 <Field
@@ -630,7 +584,7 @@ export function BookingForm({
                 <span>
                   I agree to be contacted about this request and have read the{" "}
                   <Link href="/privacy" target="_blank">
-                    privacy framework
+                    privacy notice
                   </Link>{" "}
                   and{" "}
                   <Link href="/terms" target="_blank">
@@ -654,7 +608,7 @@ export function BookingForm({
             </label>
           </div>
           {error && (
-            <p className="form-error" role="alert">
+            <p id="request-error" className="form-error" role="alert">
               {error}
             </p>
           )}
@@ -666,7 +620,7 @@ export function BookingForm({
                 disabled={busy}
                 onClick={() => go(step - 1)}
               >
-                <ArrowLeft size={17} /> Back
+                Back
               </button>
             )}
             <button type="submit" className="button" disabled={busy}>
@@ -675,13 +629,27 @@ export function BookingForm({
                 : step === 6
                   ? "Request appointment"
                   : "Continue"}
-              <ArrowRight size={18} />
             </button>
           </div>
-          <p className="fineprint">
-            No payment required to request. No appointment is confirmed yet.
-          </p>
         </form>
+        {step > 0 && (
+          <details className="request-edit">
+            <summary>Change earlier details</summary>
+            <div>
+              {steps.slice(0, step).map((label, index) => (
+                <button
+                  key={label}
+                  type="button"
+                  disabled={busy}
+                  onClick={() => go(index)}
+                  aria-label={`Edit ${label.toLowerCase()}`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </details>
+        )}
       </div>
     </section>
   );

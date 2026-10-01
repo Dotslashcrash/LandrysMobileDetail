@@ -1,36 +1,53 @@
-import { PageIntro, ServiceList, FinalCTA } from "@/components/editorial";
+import Link from "next/link";
+import { PageIntro, ServiceList } from "@/components/editorial";
 import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata(
   "Services",
-  "Explore detailing options for your interior, exterior, and full vehicle. Request a tailored quote from Landry’s.",
+  "Interior, exterior, full detailing, paint care, and protection inquiries with Landry’s Mobile Detail.",
   "/services",
 );
 export default function ServicesPage() {
   return (
-    <>
-      <PageIntro
-        eyebrow="THE RIGHT CARE FOR YOUR CAR"
-        title={
-          <>
-            CHOOSE YOUR
-            <br />
-            <em>FRESH START.</em>
-          </>
-        }
-      >
+    <div className="paper-page">
+      <PageIntro title="Detailing services">
         <p>
-          Every vehicle has a different story. Explore the areas we can discuss,
-          then tell us what yours needs.
+          Choose the work you want to discuss. We’ll agree on the scope and
+          price after reviewing your vehicle.
         </p>
       </PageIntro>
-      <section className="section page-content">
-        <div className="notice">
-          These are service inquiry categories. We’ll confirm the available
-          work, inclusions, time, and price with you before scheduling.
-        </div>
-        <ServiceList all />
-      </section>
-      <FinalCTA />
-    </>
+      <div className="section page-content service-directory">
+        <section>
+          <h2>Cleaning your vehicle</h2>
+          <ServiceList
+            ids={[
+              "interior-detail",
+              "exterior-detail",
+              "full-detail",
+              "maintenance-detail",
+            ]}
+          />
+        </section>
+        <section>
+          <h2>Paint and protection</h2>
+          <ServiceList
+            ids={[
+              "paint-enhancement",
+              "paint-correction",
+              "ceramic-protection",
+            ]}
+          />
+        </section>
+        <section className="other-service-options">
+          <h2>Other work</h2>
+          <ServiceList
+            ids={["headlight-restoration", "specialty-services", "add-ons"]}
+          />
+        </section>
+        <p>
+          Not sure which to choose?{" "}
+          <Link href="/contact">Contact Landry’s</Link> with your question.
+        </p>
+      </div>
+    </div>
   );
 }

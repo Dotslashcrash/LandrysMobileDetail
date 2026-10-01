@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { PageIntro } from "@/components/editorial";
+import { PageIntro, Questions } from "@/components/editorial";
 import { serviceAreas } from "@/data/business";
 import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata(
@@ -9,40 +9,30 @@ export const metadata = pageMetadata(
 );
 export default function AreaPage() {
   return (
-    <>
-      <PageIntro
-        eyebrow="ARKANSAS. AT YOUR ADDRESS."
-        title={
-          <>
-            LOCAL ROADS.
-            <br />
-            <em>HIGH STANDARDS.</em>
-          </>
-        }
-      >
+    <div className="paper-page">
+      <PageIntro title="Where we come to you">
         <p>
-          Professional mobile detailing throughout Northwest Arkansas and the
-          Arkansas River Valley.
+          Mobile detailing in Northwest Arkansas and the Arkansas River Valley.
+          Include your address so we can check coverage before scheduling.
         </p>
       </PageIntro>
-      <section className="section page-content">
-        <div className="split-content">
+      <div className="section page-content area-content">
+        <div className="area-options">
           {serviceAreas.map((area) => (
-            <div className="editorial-panel" key={area.id}>
-              <p className="eyebrow">{area.short} / MOBILE DETAILING</p>
+            <section key={area.id}>
               <h2>{area.name}</h2>
-              <p>{area.description}</p>
-              <Link href={`/book?market=${area.id}`} className="button">
-                Request service here ↗
+              {area.approvedCities.length > 0 && (
+                <p>{area.approvedCities.join(", ")}</p>
+              )}
+              {area.travelRules && <p>{area.travelRules}</p>}
+              <Link href={`/book?market=${area.id}`} className="text-link">
+                Request service in this region
               </Link>
-            </div>
+            </section>
           ))}
         </div>
-        <p className="notice">
-          Include your full address in your request. We’ll confirm coverage, any
-          travel considerations, and appointment options before scheduling.
-        </p>
-      </section>
-    </>
+        <Questions />
+      </div>
+    </div>
   );
 }
