@@ -724,6 +724,9 @@ footer :focus-visible,
   text-decoration: underline;
   overflow-wrap: anywhere;
 }
+html:has(.request-flow) {
+  scroll-behavior: auto;
+}
 .request-flow {
   padding-top: 65px;
   padding-bottom: 85px;

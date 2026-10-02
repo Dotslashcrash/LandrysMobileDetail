@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { services, serviceAreas, contact } from "@/data/business";
 import { Photograph } from "@/components/photograph";
@@ -69,6 +69,13 @@ export function BookingForm({
   >(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const id = useRef("");
+  const previousStep = useRef(step);
+  useLayoutEffect(() => {
+    if (previousStep.current === step) return;
+    previousStep.current = step;
+    heading.current?.focus({ preventScroll: true });
+    heading.current?.scrollIntoView({ behavior: "instant", block: "center" });
+  }, [step]);
   useEffect(() => {
     track("booking_started");
   }, []);
@@ -85,10 +92,6 @@ export function BookingForm({
   const go = (next: number) => {
     setStep(next);
     setError("");
-    requestAnimationFrame(() => {
-      heading.current?.focus();
-      heading.current?.scrollIntoView({ behavior: "auto", block: "center" });
-    });
   };
   function validate() {
     const result =
