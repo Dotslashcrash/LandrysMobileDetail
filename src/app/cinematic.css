@@ -480,6 +480,7 @@ footer :focus-visible,
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  color: var(--navy);
   font-size: 13px;
   margin-bottom: 50px;
 }
