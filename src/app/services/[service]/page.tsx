@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { services } from "@/data/business";
 import { PageIntro } from "@/components/editorial";
 import { Photograph } from "@/components/photograph";
-import { photography } from "@/content/photography";
+import { serviceMedia } from "@/content/photography";
 import { serviceCopy } from "@/content/service-copy";
 import { pageMetadata } from "@/lib/seo";
 export const dynamicParams = false;
@@ -20,7 +20,7 @@ export async function generateMetadata({
   return found
     ? pageMetadata(
         found.name,
-        serviceCopy[service].introduction,
+        `${serviceCopy[service].introduction} Pricing available by inquiry.`,
         `/services/${service}`,
       )
     : {};
@@ -34,15 +34,27 @@ export default async function ServicePage({
   const item = services.find((s) => s.id === service);
   if (!item) notFound();
   const copy = serviceCopy[item.id];
+  const media = serviceMedia[item.id];
   return (
-    <div className="paper-page service-page">
-      <PageIntro title={item.name} className="service-intro">
-        <p>{copy.introduction}</p>
-        <Link href={`/book?service=${item.id}`} className="button">
-          Book your detail
-        </Link>
-      </PageIntro>
-      <section className="section page-content service-detail-content">
+    <div className={`paper-page service-page service-layout-${media.layout}`}>
+      <div className="service-opening">
+        <PageIntro title={item.name} className="service-intro">
+          <p>{copy.introduction}</p>
+          <p className="pricing-note">Pricing available by inquiry.</p>
+          <Link href={`/book?service=${item.id}`} className="button">
+            Book your detail
+          </Link>
+        </PageIntro>
+        <Photograph
+          image={media.primary}
+          className="service-main-photograph"
+          sizes={
+            media.layout === "wide" ? "100vw" : "(max-width:800px) 100vw, 60vw"
+          }
+          eager
+        />
+      </div>
+      <section className="section service-detail-content">
         <nav className="breadcrumb" aria-label="Breadcrumb">
           <Link href="/">Home</Link> <span aria-hidden="true">›</span>{" "}
           <Link href="/services">Services</Link>{" "}
@@ -61,45 +73,38 @@ export default async function ServicePage({
                 ))}
               </ul>
             )}
-            {item.id === "interior-detail" && (
-              <Photograph
-                image={photography.interior}
-                className="service-cabin"
-                sizes="(max-width:800px) 100vw, 55vw"
-              />
-            )}
           </div>
           <aside className="service-practical">
-            <h2>Price and scheduling</h2>
+            <h2>Before the visit.</h2>
             <p>
-              <strong>Pricing</strong>
-              <br />
-              {item.startingPrice === null
-                ? "Quoted after discussing your vehicle and the work."
-                : `From $${item.startingPrice}`}
+              Share the vehicle’s size, condition, and the areas you want
+              addressed. We’ll discuss the work and provide pricing by inquiry
+              before scheduling.
             </p>
             <p>
-              <strong>Time</strong>
-              <br />
-              {item.estimatedDuration || "Discussed once the work is agreed."}
+              Mobile service in Northwest Arkansas and the Arkansas River
+              Valley. The location and preferred time are confirmed with you.
             </p>
-            <p>
-              <strong>Location</strong>
-              <br />
-              Northwest Arkansas and the River Valley. We’ll check your address
-              before arranging a visit.
-            </p>
+            <Link href="/contact" className="text-link">
+              Inquire about pricing <span aria-hidden="true">↗</span>
+            </Link>
           </aside>
         </div>
-        <nav className="related-services" aria-label="Related services">
-          {copy.related.map((id) => (
-            <Link key={id} href={`/services/${id}`}>
-              {services.find((service) => service.id === id)?.name}
-            </Link>
-          ))}
-          <Link href="/services">All services</Link>
-        </nav>
       </section>
+      {media.secondary && (
+        <Photograph
+          image={media.secondary}
+          className="service-secondary-photograph"
+        />
+      )}
+      <nav className="related-services section" aria-label="Related services">
+        {copy.related.map((id) => (
+          <Link key={id} href={`/services/${id}`}>
+            {services.find((service) => service.id === id)?.name}
+          </Link>
+        ))}
+        <Link href="/services">All services</Link>
+      </nav>
     </div>
   );
 }

@@ -18,6 +18,7 @@ export default async function BookPage({
     <BookingForm
       initialService={params.service}
       initialMarket={params.market}
+      inquiryOnly={process.env.BOOKING_MODE === "demo"}
     />
   );
 }

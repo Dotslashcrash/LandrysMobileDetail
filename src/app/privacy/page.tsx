@@ -3,46 +3,38 @@ import { pageMetadata } from "@/lib/seo";
 import { contact } from "@/data/business";
 export const metadata = pageMetadata(
   "Privacy",
-  "Information about the appointment request data collected by this local preview.",
+  "How vehicle and contact details are handled in the Landry’s appointment request experience.",
   "/privacy",
 );
 export default function PrivacyPage() {
+  const inquiryOnly = process.env.BOOKING_MODE === "demo";
   return (
     <div className="paper-page">
-      <PageIntro title="Privacy" />
+      <PageIntro title="Privacy." />
       <section className="section page-content legal">
-        <p className="notice">
-          This notice describes the local demo. The final privacy policy and
-          retention periods still need approval before public launch.
-        </p>
-        <h2>What this form collects</h2>
+        <h2>The details you enter</h2>
         <p>
-          Your name, phone number, email, vehicle details, service interests,
-          address, preferred appointment time, condition notes, and consent.
-          Campaign tags may accompany your request when present.
+          The form asks for your name, phone number, email, vehicle details,
+          service interest, address, preferred time, condition notes, and
+          consent. Campaign tags may accompany the request when present.
         </p>
-        <h2>How the information is used</h2>
+        <h2>Using the request form</h2>
         <p>
-          To review your request, confirm service coverage, discuss the work,
-          and contact you about scheduling. Submitting the form does not
-          subscribe you to marketing.
+          {inquiryOnly
+            ? "The form prepares an inquiry for you to send from your email app. Details are checked when you continue, but are not saved as a lead or delivered to Landry’s. You review and send the email yourself."
+            : "Submitted requests are encrypted and saved by the website so they can be reviewed for service coverage, work, and scheduling. A submission does not subscribe you to marketing."}
         </p>
-        <h2>Storage in this local preview</h2>
-        <p>
-          Requests are encrypted and saved on the computer hosting this site.
-          They are not automatically sent to Urable.
-        </p>
-        <h2>Tracking</h2>
+        <h2>Browser information</h2>
         <p>
           No third-party analytics or advertising trackers are active. Campaign
-          tags are held temporarily in your browser and included with a request.
+          tags are held temporarily in your browser. Your form details remain in
+          the open form as you move between its stages.
         </p>
-        <h2>Questions and deletion requests</h2>
+        <h2>Questions about your information</h2>
         <p>
           Email <a href={`mailto:${contact.email}`}>{contact.email}</a> with
-          privacy questions or deletion requests. A retention schedule must be
-          approved before public launch. Please avoid submitting sensitive
-          information in the vehicle notes.
+          privacy questions or deletion requests. Please keep sensitive
+          information out of the vehicle notes.
         </p>
       </section>
     </div>

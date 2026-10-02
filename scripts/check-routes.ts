@@ -60,6 +60,8 @@ async function main() {
     "/images/hero.webp",
     "/images/cinematic/wheel-wash-concept.webp",
     "/images/cinematic/interior-concept.webp",
+    "/images/cinematic/paint-water.webp",
+    "/images/cinematic/headlight.webp",
     "/_next/image?url=%2Fimages%2Fhero.webp&w=640&q=85",
   ])
     assert.equal((await fetch(origin + asset)).status, 200, asset);

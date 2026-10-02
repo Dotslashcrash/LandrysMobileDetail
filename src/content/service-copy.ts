@@ -10,10 +10,10 @@ export const serviceCopy: Record<
   }
 > = {
   "exterior-detail": {
-    short: "For the paint, wheels, glass, and outside surfaces.",
+    short: "Road grime, wheels, glass, and exterior surfaces.",
     introduction:
-      "Tell us about the exterior of your vehicle and what needs cleaning.",
-    heading: "What’s on the outside?",
+      "Road grime on the bodywork. Dirt on the wheels. Tell us what needs attention outside.",
+    heading: "Bodywork, wheels, and glass.",
     paragraphs: [
       "Road grime, dirty wheels, or a finish that needs attention: describe what you’re seeing when you send your request. Mention any areas you want us to look at closely.",
       "If your concern is scratches or marks in the paint, ask about paint correction so we can discuss the difference before scheduling.",
@@ -21,9 +21,9 @@ export const serviceCopy: Record<
     related: ["paint-correction", "full-detail"],
   },
   "interior-detail": {
-    short: "For seats, carpet, trim, and the cabin you use every day.",
+    short: "Seats, carpet, trim, and the cabin around you.",
     introduction:
-      "Seats, carpet, and trim: tell us what needs cleaning inside your vehicle.",
+      "Pet hair in the seats, a spill in the carpet, or a cabin that needs attention. Tell us what’s inside.",
     heading: "Seats, carpet, and everything inside",
     paragraphs: [
       "Pet hair, spills, and well-used seats can call for different work. Use the condition section of your request to tell us what’s in the cabin, then add any concerns we should know about.",
@@ -32,7 +32,7 @@ export const serviceCopy: Record<
     related: ["full-detail", "maintenance-detail"],
   },
   "full-detail": {
-    short: "For a vehicle that needs attention inside and out.",
+    short: "Address the cabin and exterior together.",
     introduction:
       "Choose a full detail when you want to discuss work on both the interior and exterior.",
     heading: "Tell us about both sides of the job",
@@ -42,9 +42,9 @@ export const serviceCopy: Record<
     related: ["interior-detail", "exterior-detail"],
   },
   "maintenance-detail": {
-    short: "Ask about care between full details.",
+    short: "Keep up with the vehicle between full details.",
     introduction:
-      "For questions about keeping up with your vehicle between full details.",
+      "Ask about keeping up with your vehicle between full details, based on its condition and use.",
     heading: "When was your last detail?",
     paragraphs: [
       "Tell us when the vehicle was last detailed, its current condition, and how you use it. If you have a particular routine in mind, include that in your notes.",
@@ -52,7 +52,7 @@ export const serviceCopy: Record<
     related: ["full-detail"],
   },
   "paint-enhancement": {
-    short: "Discuss the appearance and condition of your paint.",
+    short: "Dull paint and the appearance of the finish.",
     introduction:
       "Ask about paint that looks dull or has concerns you’d like us to assess.",
     heading: "Describe the finish",
@@ -63,7 +63,7 @@ export const serviceCopy: Record<
     related: ["paint-correction", "ceramic-protection"],
   },
   "paint-correction": {
-    short: "Have visible paint defects assessed before choosing the work.",
+    short: "Swirls, scratches, and visible paint defects.",
     introduction:
       "Request an assessment of scratches, swirl marks, or other visible paint defects.",
     heading: "Which marks concern you?",
@@ -74,7 +74,7 @@ export const serviceCopy: Record<
     related: ["paint-enhancement", "ceramic-protection"],
   },
   "ceramic-protection": {
-    short: "Ask about protection options for your vehicle.",
+    short: "Discuss the surface, preparation, and protection options.",
     introduction:
       "Discuss ceramic protection and whether it suits your vehicle’s condition and use.",
     heading: "Before choosing protection",
@@ -85,7 +85,7 @@ export const serviceCopy: Record<
     related: ["paint-enhancement", "paint-correction"],
   },
   "headlight-restoration": {
-    short: "For questions about hazy or weathered headlights.",
+    short: "Cloudy lenses and weathered headlights.",
     introduction:
       "Tell us about headlights that look cloudy, hazy, or weathered.",
     heading: "What do the headlights look like?",
@@ -95,7 +95,7 @@ export const serviceCopy: Record<
     related: ["exterior-detail"],
   },
   "specialty-services": {
-    short: "Describe work that doesn’t fit the other service options.",
+    short: "A specific vehicle or job? Tell us what you have in mind.",
     introduction:
       "Use this inquiry when you have a specific job in mind that isn’t covered by the other service options.",
     heading: "What do you need help with?",
@@ -106,7 +106,7 @@ export const serviceCopy: Record<
     related: ["add-ons"],
   },
   "add-ons": {
-    short: "Mention extra areas you want addressed with a detail.",
+    short: "Bring extra areas of concern into the same detail.",
     introduction:
       "Tell us about additional work you’d like to discuss alongside a detail.",
     heading: "Add a note about the extra work",
