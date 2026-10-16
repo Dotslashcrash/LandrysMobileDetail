@@ -8,6 +8,8 @@ Before enabling public indexing, bind valid certificates for every hostname that
 
 The public build requires `SITE_URL=https://landrysmobiledetail.com` and `ALLOW_INDEXING=true`. Both affect generated metadata and require a new build. Keep analytics disabled unless a verified vendor integration and consent decision are supplied. `/book` remains noindex.
 
+Use `npm run build:public` for this temporary visitor-email production release. It removes only this checkout's generated `.next` directory, supplies the approved public URL, indexing and inquiry mode directly to the build process, and checks the generated canonical, robots and sitemap before accepting the build. On Azure Oryx, set `RUN_BUILD_COMMAND=npm run build:public`. The short command avoids nested shell quoting and stale deployment-worker environment values. Keep `SITE_URL`, `ALLOW_INDEXING` and `BOOKING_MODE` configured consistently at runtime. Ordinary `npm run build` still supports preview builds.
+
 Run the release checks against the built server, with the expected metadata configuration supplied separately from the HTTP origin:
 
 ```powershell
