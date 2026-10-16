@@ -152,15 +152,13 @@ export function BookingForm({
         throw new Error(
           body.error || "We couldn’t save your request. Please try again.",
         );
-      if (
-        !(inquiryOnly && body.status === "demo" && body.delivery === "demo") &&
-        body.status !== "received" &&
-        !(
-          body.status === "confirmed" &&
-          body.confirmationId &&
-          body.confirmedAt
-        )
-      )
+      const verifiedResponse = inquiryOnly
+        ? body.status === "demo" && body.delivery === "demo"
+        : body.status === "received" ||
+          (body.status === "confirmed" &&
+            body.confirmationId &&
+            body.confirmedAt);
+      if (!verifiedResponse)
         throw new Error(
           "We couldn’t verify the response. Please retry your request.",
         );
