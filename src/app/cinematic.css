@@ -1714,6 +1714,27 @@ footer {
   }
 }
 /* The manual email fallback remains readable when no mail app is available. */
+.simple-inquiry .field {
+  margin-bottom: 22px;
+}
+.inquiry-vehicle {
+  border: 0;
+  padding: 0;
+  margin: 0 0 24px;
+  min-width: 0;
+}
+.inquiry-vehicle legend {
+  margin-bottom: 12px;
+  font-size: 15px;
+}
+.inquiry-vehicle-choices {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.inquiry-vehicle-choices input {
+  accent-color: var(--navy);
+}
 .inquiry-copy {
   display: block;
   width: 100%;
