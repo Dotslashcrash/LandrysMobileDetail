@@ -19,7 +19,7 @@ npm run check:routes
 
 For the preview build, use its Azure `QA_SITE_URL` and `QA_INDEXING=false`.
 
-Email inquiry mode (`BOOKING_MODE=demo`) prepares a visitor-sent email and never claims delivery. It requires explicit operator acceptance before public launch and a verified receiving mailbox. A successful form test proves only validation and message preparation; it does not prove mailbox delivery.
+The owner explicitly chose visitor-sent email inquiry mode (`BOOKING_MODE=demo`) for this temporary launch, superseding server-side email setup and receiving-mailbox verification. Validation and preparation stay in the browser. The visitor must choose **Open email to send** and press Send in their email app. Copy and manual message selection provide a fallback; the page does not clear the draft or claim receipt/delivery. A successful form test proves preparation, encoding and preserved details, not email delivery. No mail credentials or permissions are needed for this workflow.
 
 The separately recorded Zapier integration requires resolution of marketing/reminder defaults, lead classification, overwritten customer Notes, and asynchronous downstream failure handling. Do not enable it based on webhook acceptance alone. Saving inquiries to a local encrypted inbox also requires durable storage, keys, backups, and an agreed operator delivery/review path.
 

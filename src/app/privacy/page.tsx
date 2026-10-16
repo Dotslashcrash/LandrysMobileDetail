@@ -21,7 +21,7 @@ export default function PrivacyPage() {
         <h2>Using the request form</h2>
         <p>
           {inquiryOnly
-            ? "The form prepares an inquiry for you to send from your email app. Details are checked when you continue, but are not saved as a lead or delivered to Landry’s. You review and send the email yourself."
+            ? "The form checks your details and prepares an inquiry in your browser. It does not submit your inquiry to Landry's or save a lead. You open your email app, review the message, and press Send yourself. If your email app does not open, you can copy the message and email it manually."
             : "Submitted requests are encrypted and saved by the website so they can be reviewed for service coverage, work, and scheduling. A submission does not subscribe you to marketing."}
         </p>
         <h2>Browser information</h2>

@@ -19,6 +19,7 @@ import {
 } from "@/lib/booking-schema";
 import { track, readAttribution } from "@/lib/analytics";
 import type { SubmissionResult } from "@/integrations/urable/types";
+import { prepareInquiryEmail } from "@/lib/inquiry-email";
 const steps = [
   "Your vehicle",
   "The service",
@@ -64,6 +65,7 @@ export function BookingForm({
   });
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [copyStatus, setCopyStatus] = useState("");
   const [result, setResult] = useState<
     SubmissionResult | { status: "prepared" } | null
   >(null);
@@ -138,6 +140,12 @@ export function BookingForm({
       setError(checked.error.issues[0].message);
       return;
     }
+    if (inquiryOnly) {
+      // Prepare a visitor-sent email in memory without transmitting the form.
+      setError("");
+      setResult({ status: "prepared" });
+      return;
+    }
     setBusy(true);
     setError("");
     try {
@@ -152,18 +160,17 @@ export function BookingForm({
         throw new Error(
           body.error || "We couldn’t save your request. Please try again.",
         );
-      const verifiedResponse = inquiryOnly
-        ? body.status === "demo" && body.delivery === "demo"
-        : body.status === "received" ||
-          (body.status === "confirmed" &&
-            body.confirmationId &&
-            body.confirmedAt);
+      const verifiedResponse =
+        body.status === "received" ||
+        (body.status === "confirmed" &&
+          body.confirmationId &&
+          body.confirmedAt);
       if (!verifiedResponse)
         throw new Error(
           "We couldn’t verify the response. Please retry your request.",
         );
-      setResult(body.status === "demo" ? { status: "prepared" } : body);
-      if (body.status !== "demo") track("appointment_requested");
+      setResult(body);
+      track("appointment_requested");
       if (body.status === "confirmed") track("booking_completed");
       window.scrollTo({ top: 0 });
     } catch (failure) {
@@ -179,19 +186,23 @@ export function BookingForm({
     }
   }
   const service = services.find((s) => s.id === draft.serviceId);
-  const inquiryEmail = `mailto:${contact.email}?subject=${encodeURIComponent(`Detail inquiry · ${service?.name || "Vehicle detailing"}`)}&body=${encodeURIComponent(
-    [
-      `Hello Landry’s, I’d like to inquire about ${service?.name || "detailing"} and pricing.`,
-      `Vehicle: ${draft.vehicle.year} ${draft.vehicle.make} ${draft.vehicle.model} ${draft.vehicle.trim}`,
-      `Condition: ${draft.conditions.join(", ")}`,
-      draft.notes,
-      `Location: ${draft.location.address}, ${draft.location.city}, AR ${draft.location.zip}`,
-      `Preferred time: ${draft.preference.date}, ${draft.preference.window} (Arkansas time)`,
-      `Contact: ${draft.customer.firstName} ${draft.customer.lastName}, ${draft.customer.phone}, ${draft.customer.email}`,
-    ]
-      .filter(Boolean)
-      .join("\n\n"),
-  )}`;
+  const inquiry = prepareInquiryEmail(
+    draft,
+    service?.name || "Vehicle detailing",
+    contact.email!,
+  );
+  async function copyInquiry() {
+    try {
+      await navigator.clipboard.writeText(inquiry.copyText);
+      setCopyStatus(
+        "Inquiry details copied. Paste them into your email and press Send.",
+      );
+    } catch {
+      setCopyStatus(
+        "Select the message below and copy it into your email. Then press Send.",
+      );
+    }
+  }
   const summary = (
     <dl className="request-summary">
       <div>
@@ -254,7 +265,7 @@ export function BookingForm({
         </h1>
         <p className="body-copy">
           {result.status === "prepared"
-            ? "Your details have not been sent to Landry’s, and no appointment has been reserved. Open your email app to send the inquiry and discuss pricing."
+            ? "Your details have not been sent to Landry's, and no appointment has been reserved. Open your email app, review the inquiry, and press Send."
             : result.status === "confirmed"
               ? `Confirmation ${result.confirmationId}. Your confirmed appointment: ${result.confirmedAt}.`
               : "Your preferred time is not yet booked. We’ll contact you to agree on the work and timing."}
@@ -265,13 +276,34 @@ export function BookingForm({
         </details>
         {result.status === "prepared" ? (
           <>
-            <a href={inquiryEmail} className="button">
-              Open email inquiry
+            <a href={inquiry.href} className="button">
+              Open email to send
             </a>
             <p className="form-copy">
               Send to <a href={`mailto:${contact.email}`}>{contact.email}</a>.
-              You review and send the email yourself.
+              You must press Send in your email app. Keep this page open to
+              retain your details.
             </p>
+            <button type="button" className="button" onClick={copyInquiry}>
+              Copy inquiry details
+            </button>
+            <p className="form-copy" role="status">
+              {copyStatus}
+            </p>
+            <details className="success-details">
+              <summary>
+                Email app unavailable? Copy the message manually.
+              </summary>
+              <label htmlFor="inquiry-message">Inquiry message to copy</label>
+              <textarea
+                id="inquiry-message"
+                className="inquiry-copy"
+                readOnly
+                rows={12}
+                value={inquiry.copyText}
+                onFocus={(event) => event.currentTarget.select()}
+              />
+            </details>
           </>
         ) : (
           <p className="fineprint">Request reference: {result.reference}</p>

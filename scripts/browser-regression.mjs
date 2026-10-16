@@ -433,12 +433,12 @@ export async function submitRequest(tab, expected = "received") {
     await tab.getAXState({ emit: false });
     const text = await p.locator("main").innerText();
     assert(
-      text.includes("Your details have not been sent to Landry’s") &&
+      /Your details have not been sent to Landry['’]s/.test(text) &&
         text.includes("no appointment has been reserved"),
       "False delivery or booking claim",
     );
     const href = await p
-      .getByRole("link", { name: "Open email inquiry", exact: true })
+      .getByRole("link", { name: "Open email to send", exact: true })
       .getAttribute("href");
     assert(
       href.startsWith("mailto:info@landrysmobiledetail.com?") &&

@@ -1713,3 +1713,15 @@ footer {
     transform: none !important;
   }
 }
+/* The manual email fallback remains readable when no mail app is available. */
+.inquiry-copy {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  font: inherit;
+  color: inherit;
+  background: var(--white, #fff);
+  border: 1px solid currentColor;
+}
