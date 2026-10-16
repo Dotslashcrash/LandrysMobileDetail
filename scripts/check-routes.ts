@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { services } from "../src/data/business";
 const origin = process.env.QA_ORIGIN || "http://127.0.0.1:3000";
+const canonical = process.env.QA_SITE_URL || origin;
+const indexing = process.env.QA_INDEXING === "true";
 async function main() {
   const pages = [
     "/",
@@ -27,7 +29,18 @@ async function main() {
     assert.match(html, /name="description"/);
     assert.match(html, /property="og:title"/);
     assert.match(html, /name="twitter:card"/);
-    assert.match(html, /noindex/);
+    assert.match(
+      html,
+      indexing && route !== "/book"
+        ? /name="robots" content="index, follow"/
+        : /noindex/,
+    );
+    const expectedCanonical = new URL(route, canonical).href.replace(/\/$/, "");
+    assert.ok(
+      html.includes(`rel="canonical" href="${expectedCanonical}"`) ||
+        html.includes(`rel="canonical" href="${expectedCanonical}/"`),
+      `canonical ${route}`,
+    );
     assert.equal(response.headers.get("x-content-type-options"), "nosniff");
   }
   for (const route of [
@@ -39,7 +52,7 @@ async function main() {
     assert.equal((await fetch(origin + route)).status, 404, route);
   assert.match(
     await (await fetch(origin + "/robots.txt")).text(),
-    /Disallow: \//,
+    indexing ? /Allow: \// : /Disallow: \//,
   );
   assert.match(
     await (await fetch(origin + "/sitemap.xml")).text(),

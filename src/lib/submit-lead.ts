@@ -11,6 +11,8 @@ export async function submitLead(
   adapter?: UrableAdapter,
 ): Promise<SubmissionResult> {
   const { mode } = integrationConfig();
+  if (mode === "demo")
+    return { status: "demo", reference: request.requestId, delivery: "demo" };
   const { record, created } = saveLead(
     request,
     mode === "urable" ? "pending" : mode === "fallback" ? "fallback" : "local",
