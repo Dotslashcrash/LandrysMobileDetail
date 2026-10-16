@@ -45,9 +45,9 @@ export default function ContactPage() {
         <div className="supporting-copy">
           <h2>Have a detail in mind?</h2>
           <p>
-            The request form brings your vehicle details, service interest,
-            address, and preferred time together. An appointment is agreed only
-            after the work and scheduling are confirmed.
+            Share your contact details, vehicle type, and any notes in the
+            request form. An appointment is agreed only after the work and
+            scheduling are confirmed.
           </p>
           <Link href="/book" className="button">
             Book your detail

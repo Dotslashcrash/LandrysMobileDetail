@@ -99,16 +99,13 @@ export default function Home() {
           <div className="process-story">
             <div>
               <h3>Tell us about the vehicle.</h3>
-              <p>
-                Choose the work you’re interested in and note any areas that
-                need attention.
-              </p>
+              <p>Choose your vehicle type and share how we can reach you.</p>
             </div>
             <div>
-              <h3>Choose your location and time.</h3>
+              <h3>Add your notes.</h3>
               <p>
-                Let us know where the vehicle will be. Your preferred date
-                starts the scheduling conversation.
+                Tell us about the work you have in mind and any areas that need
+                attention.
               </p>
             </div>
             <div>

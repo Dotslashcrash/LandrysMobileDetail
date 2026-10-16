@@ -13,9 +13,8 @@ export default function TermsPage() {
       <section className="section page-content legal">
         <h2>Confirming an appointment</h2>
         <p>
-          Your preferred date and time begin a scheduling conversation. An
-          appointment is agreed only after Landry’s confirms the work, location,
-          and timing with you.
+          An inquiry begins a scheduling conversation. An appointment is agreed
+          only after Landry’s confirms the work, location, and timing with you.
         </p>
         <h2>Pricing available by inquiry</h2>
         <p>
