@@ -1,9 +1,9 @@
 export function integrationConfig() {
   const mode = process.env.BOOKING_MODE || "lead";
-  if (!["lead", "urable", "fallback"].includes(mode))
+  if (!["lead", "urable", "fallback", "demo"].includes(mode))
     throw new Error("INVALID_BOOKING_MODE");
   return {
-    mode: mode as "lead" | "urable" | "fallback",
+    mode: mode as "lead" | "urable" | "fallback" | "demo",
     apiUrl: process.env.URABLE_API_URL,
     apiKey: process.env.URABLE_API_KEY,
     accountId: process.env.URABLE_ACCOUNT_ID,

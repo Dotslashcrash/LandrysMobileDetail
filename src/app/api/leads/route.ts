@@ -70,12 +70,12 @@ export async function POST(request: Request) {
     const result = await submitLead(parsed.data);
     console.info(
       JSON.stringify({
-        event: "lead_saved",
+        event: result.status === "demo" ? "demo_submission" : "lead_saved",
         reference: result.reference,
         delivery: result.delivery,
       }),
     );
-    return response(result, 201);
+    return response(result, result.status === "demo" ? 200 : 201);
   } catch (error) {
     if (error instanceof SyntaxError)
       return response({ error: "Invalid request format." }, 400);

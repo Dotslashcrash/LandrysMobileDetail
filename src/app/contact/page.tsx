@@ -1,25 +1,27 @@
 import Link from "next/link";
 import { PageIntro } from "@/components/editorial";
+import { Photograph } from "@/components/photograph";
+import { photography } from "@/content/photography";
 import { contact } from "@/data/business";
 import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata(
   "Contact",
-  "Contact Landry’s Mobile Detail at info@landrysmobiledetail.com or send a detailing request.",
+  "Inquire about detailing and pricing at info@landrysmobiledetail.com. Serving Northwest Arkansas and the Arkansas River Valley.",
   "/contact",
 );
 export default function ContactPage() {
   return (
     <div className="paper-page contact-page">
-      <PageIntro title="Contact Landry’s">
+      <PageIntro title="Talk to Landry’s.">
         {contact.email && (
           <a className="contact-email" href={`mailto:${contact.email}`}>
             {contact.email}
           </a>
         )}
         <p>
-          For a question about your vehicle or the work you have in mind, email
-          us. Include your vehicle and location so we know what you’re asking
-          about.
+          Pricing available by inquiry. Include your vehicle, its condition,
+          your location, and the work you have in mind. We’ll discuss a quote
+          before scheduling.
         </p>
         {contact.phone && (
           <p>
@@ -34,19 +36,29 @@ export default function ContactPage() {
           </p>
         ))}
       </PageIntro>
-      <section className="section page-content contact-request">
-        <h2>Requesting an appointment?</h2>
-        <p>
-          The request form keeps your vehicle details, address, and preferred
-          time together. We’ll contact you to agree on the work and scheduling.
-        </p>
-        <Link href="/book" className="button">
-          Book your detail
-        </Link>
-        <p className="contact-region">
-          Northwest Arkansas and the Arkansas River Valley.{" "}
-          <Link href="/service-area">Service area details</Link>.
-        </p>
+      <section className="contact-composition">
+        <Photograph
+          image={photography.paint}
+          className="supporting-photograph"
+          sizes="(max-width:800px) 100vw, 55vw"
+        />
+        <div className="supporting-copy">
+          <h2>Have a detail in mind?</h2>
+          <p>
+            Share your contact details, vehicle type, and any notes in the
+            request form. An appointment is agreed only after the work and
+            scheduling are confirmed.
+          </p>
+          <Link href="/book" className="button">
+            Book your detail
+          </Link>
+          <p className="contact-region">
+            Northwest Arkansas and the Arkansas River Valley.{" "}
+            <Link href="/service-area" className="text-link">
+              Check your location
+            </Link>
+          </p>
+        </div>
       </section>
     </div>
   );

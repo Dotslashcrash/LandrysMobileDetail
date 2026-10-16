@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-16",
+  "provenance": "Owner supplied photographs from D:/Mustang. AI-assisted editorial lighting and background edits; not verified Landry customer work or before/after evidence. Originals unchanged.",
+  "tool": "Built-in ImageGen for lighting edits; Sharp for WebP encoding only.",
+  "assets": [
+    {
+      "path": "public/images/cinematic/mustang-hero.webp",
+      "sourceFile": "20210814_201459.jpg",
+      "sourceSha256": "b535c69647692a61f9f50474d2b1fbfea3c23b1fa38fabbe641a7a6693c1d170",
+      "generatedFile": "exec-c73fac77-5d54-4d45-afb1-2d1e4f7de175.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 242066,
+      "sha256": "ecb3bcfc2c4bc722148a77a844763c56111d5b4be550e4d1100bce711533c99b"
+    },
+    {
+      "path": "public/images/cinematic/mustang-paint.webp",
+      "sourceFile": "20231106_094924.jpg",
+      "sourceSha256": "e61d9604f161a19cbce1d5c92c24c6f89f19e6caf41686099500c5f777f8dc90",
+      "generatedFile": "exec-3de29ee4-03dd-41f8-b63e-2de9a3d1a850.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 135720,
+      "sha256": "fc52b131127e8af5429c80d8cd82657120b3e0a5588b504d795dc09a62ba4bbb"
+    },
+    {
+      "path": "public/images/cinematic/mustang-wheel.webp",
+      "sourceFile": "20231106_094935.jpg",
+      "sourceSha256": "9518ca8bc44f399b0e97052630877bb101d63e837ceafa1ec9d7128a42d0f8b8",
+      "generatedFile": "exec-373f56a0-0729-457e-80c5-a535986de92d.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 366778,
+      "sha256": "a2f5af7ff40d99c3b41045c4c76be6d2e134d4121040ccfea9a26120f64207b1"
+    },
+    {
+      "path": "public/images/cinematic/mustang-headlight.webp",
+      "sourceFile": "20210816_200835_08.jpg",
+      "sourceSha256": "7d9c2d25d2f4f9c7ec6dca03d42ef7a16c276ce3cc2650b4a1d22ae34e41995f",
+      "generatedFile": "exec-44abb638-8ec1-45a1-8c26-e46ed9fe7f70.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 134038,
+      "sha256": "43211f79699d058f746e88be8a3c31667867703e200387b9674bcd60512915b3"
+    }
+  ]
+}

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { branding, contact } from "@/data/business";
+import { contact } from "@/data/business";
 import { readAttribution } from "@/lib/analytics";
 const links = [
   ["Services", "/services"],
@@ -16,6 +16,13 @@ const links = [
 export function Header() {
   const path = usePathname();
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const update = () => setScrolled(window.scrollY > 40);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
   useEffect(() => {
     readAttribution();
   }, []);
@@ -28,7 +35,9 @@ export function Header() {
   }, []);
   return (
     <>
-      <header className="header">
+      <header
+        className={`header${path === "/" && !scrolled && !open ? " header-over-hero" : ""}${scrolled ? " header-compact" : ""}`}
+      >
         <Link
           href="/"
           className="brand-logo"
@@ -108,7 +117,7 @@ export function Footer() {
           />
         </Link>
         <p>
-          {branding.region}
+          Northwest Arkansas &amp; the Arkansas River Valley
           {contact.email && (
             <>
               <br />

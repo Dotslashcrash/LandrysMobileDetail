@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Header, Footer } from "@/components/shell";
 import { siteUrl } from "@/lib/seo";
 import { contact } from "@/data/business";
+import { CinematicMotion } from "@/components/cinematic-motion";
 import "./globals.css";
 import "./cinematic.css";
 export const metadata: Metadata = {
@@ -79,6 +80,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <CinematicMotion />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

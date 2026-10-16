@@ -1,6 +1,11 @@
 import type { LeadRequest } from "@/lib/booking-schema";
 export type SubmissionResult =
   | {
+      status: "demo";
+      reference: string;
+      delivery: "demo";
+    }
+  | {
       status: "received";
       reference: string;
       delivery: "local" | "fallback" | "urable";

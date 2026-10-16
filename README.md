@@ -38,6 +38,8 @@ The seven-step form collects vehicle, service interest, condition, location, pre
 
 `BOOKING_MODE=lead` (default) saves locally. `fallback` explicitly uses the same local inbox. `urable` saves first and then calls the integration adapter; the unconfigured adapter falls back safely. **No Urable request is currently sent, no live availability is fetched, and no appointment is confirmed.** A successful lead response always says `received`.
 
+`BOOKING_MODE=demo` uses the owner-approved temporary visitor-sent email workflow. The form validates and prepares the message entirely in the browser without transmitting the inquiry to the website API. The visitor chooses **Open email to send**, reviews the prepared message, and presses Send in their own email app to `info@landrysmobiledetail.com`. A copy button and selectable message remain available if the email app or clipboard is unavailable. Details remain in page memory until navigation/reload; no lead is saved and no receipt or appointment is claimed. The legacy demo API remains validation-only if called separately. No server-side mail setup or receiving-mailbox verification is required for this explicitly chosen workflow.
+
 Records are AES-256-GCM encrypted in `private-data/leads.sqlite`. A random local key is created as `private-data/.encryption-key` if no environment key is supplied. Unique request IDs prevent duplicate records and duplicate provider delivery on retries. Changed payloads with the same request ID are rejected. Storage failures return a safe error and keep the form contents on screen; customer form details are not persisted in browser storage.
 
 Review requests from the local terminal:
@@ -58,7 +60,7 @@ Copy `.env.example` to `.env.local` to customize Next.js. Defaults work without 
 | ------------------------------------------------------------------ | ------------------------------------------------------------------- |
 | `SITE_URL`                                                         | Trusted canonical origin, default `http://localhost:3000`           |
 | `ALLOW_INDEXING`                                                   | Default `false`; enable only for an approved public release         |
-| `BOOKING_MODE`                                                     | `lead`, `fallback`, or `urable`                                     |
+| `BOOKING_MODE`                                                     | `lead`, `fallback`, `urable`, or email inquiry mode `demo`          |
 | `LEAD_STORAGE_DIR`                                                 | Durable local directory, default `./private-data`                   |
 | `LEAD_ENCRYPTION_KEY`                                              | Optional base64 32-byte AES key; otherwise a local key is generated |
 | `URABLE_API_URL`, `URABLE_API_KEY`                                 | Internal placeholders; no verified endpoint/auth assumptions        |
@@ -121,3 +123,5 @@ npm run build
 ```
 
 Tests cover invalid requests, encryption, duplicate prevention, provider fallback, origin/size checks, and storage failure. See `QA.md` for browser checks and launch dependencies. `main` contains the approved version 1 baseline; use `codex/` branches for subsequent changes.
+
+See `docs/public-launch.md` for canonical routing, metadata verification, and release gates.

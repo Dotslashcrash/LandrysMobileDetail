@@ -81,9 +81,23 @@ export async function runLayoutChecks(tab, viewport, sizes = viewports) {
           brokenImages: [...document.querySelectorAll("img")]
             .filter((el) => visible(el) && el.complete && !el.naturalWidth)
             .map((el) => el.getAttribute("src")),
-          conceptLabels: [
-            ...document.querySelectorAll(".automotive-frame"),
-          ].every((el) => el.textContent.includes("Concept imagery")),
+          developmentLanguage:
+            /concept imag(?:e|ery)|demo imag|placeholder|mockup|prototype|try the booking demo|demo site|sample content|test content|design preview|initial concept|future integration|coming integration|not yet connected/i.test(
+              document.body.innerText +
+                " " +
+                [...document.querySelectorAll("img")]
+                  .map((el) => el.alt)
+                  .join(" ") +
+                " " +
+                document.title +
+                " " +
+                (document.querySelector('meta[name="description"]')?.content ||
+                  ""),
+            ),
+          numericPricing:
+            /\$\s*\d|(?:starting at|from)\s*\$|\d+\s*(?:USD|dollars)/i.test(
+              document.body.innerText,
+            ),
         };
       });
       assert(layout.h1 === 1, `${route}: expected one main heading`);
@@ -96,7 +110,11 @@ export async function runLayoutChecks(tab, viewport, sizes = viewports) {
         !layout.missingAlt && !layout.brokenImages.length,
         `${route}: inaccessible/broken image`,
       );
-      assert(layout.conceptLabels, `${route}: undisclosed concept image`);
+      assert(
+        !layout.developmentLanguage,
+        `${route}: public development language`,
+      );
+      assert(!layout.numericPricing, `${route}: numeric pricing`);
       results.push({ route, ...size, ...layout });
     }
   }
@@ -365,9 +383,7 @@ export async function runRequestJourney(tab) {
     "regression@example.invalid",
   ])
     assert(review.includes(expected), `Review missing ${expected}`);
-  await p
-    .getByRole("button", { name: "Request appointment", exact: true })
-    .click();
+  await p.locator('.form-actions button[type="submit"]').click();
   await tab.getAXState({ emit: false });
   assert(
     await p.locator(".consent input").evaluate((el) => !el.validity.valid),
@@ -409,9 +425,45 @@ export async function runRequestJourney(tab) {
 
 export async function submitRequest(tab, expected = "received") {
   const p = tab.playwright;
-  await p
-    .getByRole("button", { name: "Request appointment", exact: true })
-    .click();
+  await p.locator('.form-actions button[type="submit"]').click();
+  if (expected === "prepared") {
+    await p
+      .getByRole("heading", { name: "Your inquiry is ready.", exact: true })
+      .waitFor({ state: "visible" });
+    await tab.getAXState({ emit: false });
+    const text = await p.locator("main").innerText();
+    assert(
+      /Your details have not been sent to Landry['’]s/.test(text) &&
+        text.includes("no appointment has been reserved"),
+      "False delivery or booking claim",
+    );
+    const href = await p
+      .getByRole("link", { name: "Open email to send", exact: true })
+      .getAttribute("href");
+    assert(
+      href.startsWith("mailto:info@landrysmobiledetail.com?") &&
+        decodeURIComponent(href).includes("Regression Test"),
+      "Email inquiry missing reviewed details",
+    );
+    const state = await p.evaluate(() => ({
+      scroll: scrollY,
+      focus: document.activeElement?.textContent,
+      overflow: document.documentElement.scrollWidth > innerWidth + 1,
+    }));
+    assert(
+      !state.overflow &&
+        state.scroll === 0 &&
+        state.focus === "Your inquiry is ready.",
+      "Prepared inquiry focus or layout failure",
+    );
+    return {
+      prepared: true,
+      delivered: false,
+      appointmentReserved: false,
+      emailComposer: true,
+      ...state,
+    };
+  }
   if (expected === "error") {
     await p.locator("#request-error").waitFor({ state: "visible" });
     await tab.getAXState({ emit: false });
@@ -507,7 +559,7 @@ export async function runLinkChecks(tab, viewport) {
         .nth(index)
         .click();
       await tab.playwright
-        .locator(".request-flow")
+        .locator(new URL(href, "http://127.0.0.1:3000").pathname === "/book" ? ".request-flow" : ".quiet-intro")
         .waitFor({ state: "visible" });
       await tab.getAXState({ emit: false });
       const arrived = new URL(await tab.url());

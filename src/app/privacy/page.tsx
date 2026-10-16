@@ -3,46 +3,39 @@ import { pageMetadata } from "@/lib/seo";
 import { contact } from "@/data/business";
 export const metadata = pageMetadata(
   "Privacy",
-  "Information about the appointment request data collected by this local preview.",
+  "How vehicle and contact details are handled in the Landry’s detailing inquiry form.",
   "/privacy",
 );
 export default function PrivacyPage() {
   return (
     <div className="paper-page">
-      <PageIntro title="Privacy" />
+      <PageIntro title="Privacy." />
       <section className="section page-content legal">
-        <p className="notice">
-          This notice describes the local demo. The final privacy policy and
-          retention periods still need approval before public launch.
-        </p>
-        <h2>What this form collects</h2>
+        <h2>The details you enter</h2>
         <p>
-          Your name, phone number, email, vehicle details, service interests,
-          address, preferred appointment time, condition notes, and consent.
-          Campaign tags may accompany your request when present.
+          The form asks for your name, phone number, email, vehicle type, and
+          any notes or details you choose to include.
         </p>
-        <h2>How the information is used</h2>
+        <h2>Using the request form</h2>
         <p>
-          To review your request, confirm service coverage, discuss the work,
-          and contact you about scheduling. Submitting the form does not
-          subscribe you to marketing.
+          The form checks your details and prepares an inquiry in your browser.
+          It does not submit your inquiry to Landry’s or save a lead. You open
+          your email app, review the message, and press Send yourself. If your
+          email app does not open, you can copy the message and email it
+          manually.
         </p>
-        <h2>Storage in this local preview</h2>
-        <p>
-          Requests are encrypted and saved on the computer hosting this site.
-          They are not automatically sent to Urable.
-        </p>
-        <h2>Tracking</h2>
+        <h2>Browser information</h2>
         <p>
           No third-party analytics or advertising trackers are active. Campaign
-          tags are held temporarily in your browser and included with a request.
+          tags are held temporarily in your browser and are not included in your
+          inquiry email. Keep the form page open to retain your details while
+          preparing, copying, or editing your message.
         </p>
-        <h2>Questions and deletion requests</h2>
+        <h2>Questions about your information</h2>
         <p>
           Email <a href={`mailto:${contact.email}`}>{contact.email}</a> with
-          privacy questions or deletion requests. A retention schedule must be
-          approved before public launch. Please avoid submitting sensitive
-          information in the vehicle notes.
+          privacy questions or deletion requests. Please keep sensitive
+          information out of the vehicle notes.
         </p>
       </section>
     </div>

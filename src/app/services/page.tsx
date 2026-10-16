@@ -1,23 +1,50 @@
 import Link from "next/link";
 import { PageIntro, ServiceList } from "@/components/editorial";
+import { Photograph } from "@/components/photograph";
+import { photography } from "@/content/photography";
 import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata(
   "Services",
-  "Interior, exterior, full detailing, paint care, and protection inquiries with Landry’s Mobile Detail.",
+  "Interior, exterior, paint care, and protection. Pricing available by inquiry for mobile detailing in Northwest Arkansas and the Arkansas River Valley.",
   "/services",
 );
 export default function ServicesPage() {
   return (
     <div className="paper-page">
-      <PageIntro title="Detailing services">
-        <p>
-          Choose the work you want to discuss. We’ll agree on the scope and
-          price after reviewing your vehicle.
-        </p>
-      </PageIntro>
-      <div className="section page-content service-directory">
-        <section>
-          <h2>Cleaning your vehicle</h2>
+      <div className="directory-opening">
+        <PageIntro
+          title={
+            <>
+              Detailing
+              <br />
+              services.
+            </>
+          }
+        >
+          <p>Start with the part of your vehicle that needs attention.</p>
+          <p className="pricing-note">
+            Pricing available by inquiry. Your vehicle and the agreed work
+            determine the quote.
+          </p>
+          <Link href="/contact" className="text-link">
+            Ask about your vehicle <span aria-hidden="true">↗</span>
+          </Link>
+        </PageIntro>
+        <Photograph
+          image={photography.wheel}
+          className="directory-hero"
+          sizes="(max-width:800px) 100vw, 60vw"
+          eager
+        />
+      </div>
+      <section className="service-chapter section">
+        <Photograph
+          image={photography.interior}
+          className="chapter-photograph"
+          sizes="(max-width:800px) 100vw, 48vw"
+        />
+        <div>
+          <h2>Inside &amp; out.</h2>
           <ServiceList
             ids={[
               "interior-detail",
@@ -26,9 +53,11 @@ export default function ServicesPage() {
               "maintenance-detail",
             ]}
           />
-        </section>
-        <section>
-          <h2>Paint and protection</h2>
+        </div>
+      </section>
+      <section className="service-chapter paint-chapter">
+        <div>
+          <h2>Paint &amp; protection.</h2>
           <ServiceList
             ids={[
               "paint-enhancement",
@@ -36,17 +65,34 @@ export default function ServicesPage() {
               "ceramic-protection",
             ]}
           />
-        </section>
-        <section className="other-service-options">
-          <h2>Other work</h2>
+        </div>
+        <Photograph
+          image={photography.paint}
+          className="chapter-photograph"
+          sizes="(max-width:800px) 100vw, 55vw"
+        />
+      </section>
+      <section className="service-chapter specialty-chapter section">
+        <Photograph
+          image={photography.headlight}
+          className="chapter-photograph"
+          sizes="(max-width:800px) 100vw, 48vw"
+        />
+        <div>
+          <h2>Something specific?</h2>
           <ServiceList
             ids={["headlight-restoration", "specialty-services", "add-ons"]}
           />
-        </section>
+        </div>
+      </section>
+      <div className="directory-close section">
         <p>
-          Not sure which to choose?{" "}
-          <Link href="/contact">Contact Landry’s</Link> with your question.
+          Not sure which service fits? Describe the concern and we’ll discuss
+          the options.
         </p>
+        <Link href="/contact" className="button">
+          Contact Landry’s
+        </Link>
       </div>
     </div>
   );

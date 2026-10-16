@@ -1,9 +1,9 @@
-import { BookingForm } from "@/components/booking-form";
+import { InquiryForm } from "@/components/inquiry-form";
 import { pageMetadata } from "@/lib/seo";
 export const metadata = {
   ...pageMetadata(
-    "Request an Appointment",
-    "Tell us about your vehicle and request mobile detailing at your location.",
+    "Request a Detail",
+    "Share your name, phone, email, vehicle type and details to prepare a detailing inquiry.",
     "/book",
   ),
   robots: { index: false, follow: true },
@@ -11,13 +11,8 @@ export const metadata = {
 export default async function BookPage({
   searchParams,
 }: {
-  searchParams: Promise<{ service?: string; market?: string }>;
+  searchParams: Promise<{ service?: string }>;
 }) {
   const params = await searchParams;
-  return (
-    <BookingForm
-      initialService={params.service}
-      initialMarket={params.market}
-    />
-  );
+  return <InquiryForm initialService={params.service} />;
 }

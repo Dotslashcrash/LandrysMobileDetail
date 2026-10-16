@@ -15,7 +15,7 @@ export function Photograph({
   caption?: string;
 }) {
   return (
-    <figure className={`automotive-frame ${className}`}>
+    <figure className={`automotive-frame ${className}`} data-image-motion>
       <Image
         src={image.src}
         alt={image.alt}
@@ -26,13 +26,7 @@ export function Photograph({
         fetchPriority={eager ? "high" : undefined}
         style={{ objectPosition: image.position }}
       />
-      {(image.kind === "concept" || caption) && (
-        <figcaption>
-          {caption}
-          {caption && image.kind === "concept" ? " · " : ""}
-          {image.kind === "concept" ? "Concept imagery" : ""}
-        </figcaption>
-      )}
+      {caption && <figcaption>{caption}</figcaption>}
     </figure>
   );
 }

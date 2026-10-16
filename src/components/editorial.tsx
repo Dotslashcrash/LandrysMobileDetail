@@ -58,9 +58,22 @@ export function Questions() {
               {item.question}
               <span aria-hidden="true">+</span>
             </summary>
-            <p>{item.answer}</p>
+            <p>
+              {item.question === "How do I book?"
+                ? "Use the request form to put your vehicle details and preferred time together, or email info@landrysmobiledetail.com. Agree on the work, price, and location with Landry’s before an appointment is confirmed."
+                : item.answer}
+            </p>
           </details>
         ))}
+      <details>
+        <summary>
+          How do I get pricing?<span aria-hidden="true">+</span>
+        </summary>
+        <p>
+          Pricing is available by inquiry. Share your vehicle, its condition,
+          and the work you have in mind for a quote before scheduling.
+        </p>
+      </details>
     </section>
   );
 }
