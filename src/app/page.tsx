@@ -54,7 +54,7 @@ export default function Home() {
             sizes="(max-width:800px) 100vw, 50vw"
           />
           <Photograph
-            image={photography.wash}
+            image={photography.wheel}
             className="cabin-inset"
             sizes="(max-width:800px) 45vw, 24vw"
           />

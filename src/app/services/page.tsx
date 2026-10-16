@@ -31,7 +31,7 @@ export default function ServicesPage() {
           </Link>
         </PageIntro>
         <Photograph
-          image={photography.wash}
+          image={photography.wheel}
           className="directory-hero"
           sizes="(max-width:800px) 100vw, 60vw"
           eager

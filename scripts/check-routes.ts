@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { services } from "../src/data/business";
+import { photography } from "../src/content/photography";
 const origin = process.env.QA_ORIGIN || "http://127.0.0.1:3000";
 const canonical = process.env.QA_SITE_URL || origin;
 const indexing = process.env.QA_INDEXING === "true";
@@ -70,12 +71,8 @@ async function main() {
     "/brand/submark.webp",
     "/brand/speedline.webp",
     "/brand/apple-touch-icon.png",
-    "/images/hero.webp",
-    "/images/cinematic/wheel-wash-concept.webp",
-    "/images/cinematic/interior-concept.webp",
-    "/images/cinematic/paint-water.webp",
-    "/images/cinematic/headlight.webp",
-    "/_next/image?url=%2Fimages%2Fhero.webp&w=640&q=85",
+    ...Object.values(photography).map((image) => image.src),
+    `/_next/image?url=${encodeURIComponent(photography.vehicle.src)}&w=640&q=85`,
   ])
     assert.equal((await fetch(origin + asset)).status, 200, asset);
   console.log(

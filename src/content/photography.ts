@@ -9,24 +9,24 @@ export type PhotographAsset = {
 // Replace media records with permission-cleared photography; provenance is internal.
 // Design images never enter the customer gallery or before/after comparisons.
 export const photography: Record<
-  "vehicle" | "wash" | "interior" | "paint" | "headlight",
+  "vehicle" | "wheel" | "interior" | "paint" | "headlight",
   PhotographAsset
 > = {
   vehicle: {
-    src: "/images/hero.webp",
-    alt: "Black coupe with light reflected across wet paint",
-    width: 1536,
-    height: 1024,
+    src: "/images/cinematic/mustang-hero.webp",
+    alt: "Black Mustang convertible with dry glossy paint in warm evening light",
+    width: 1672,
+    height: 941,
     kind: "concept",
     position: "68% center",
   },
-  wash: {
-    src: "/images/cinematic/wheel-wash-concept.webp",
-    alt: "White wash foam on a truck wheel and dark bodywork",
+  wheel: {
+    src: "/images/cinematic/mustang-wheel.webp",
+    alt: "Clean black Mustang wheel and dry bodywork in soft evening light",
     width: 1536,
     height: 1024,
     kind: "concept",
-    position: "65% center",
+    position: "45% center",
   },
   interior: {
     src: "/images/cinematic/interior-concept.webp",
@@ -37,20 +37,20 @@ export const photography: Record<
     position: "center",
   },
   paint: {
-    src: "/images/cinematic/paint-water.webp",
-    alt: "Water beads and a white reflection across dark metallic paint",
+    src: "/images/cinematic/mustang-paint.webp",
+    alt: "Smooth dry Mustang hood reflecting soft light across black paint",
     width: 1536,
     height: 1024,
     kind: "concept",
     position: "center",
   },
   headlight: {
-    src: "/images/cinematic/headlight.webp",
-    alt: "Clear headlight lens and wet black bodywork in a shaded driveway",
+    src: "/images/cinematic/mustang-headlight.webp",
+    alt: "Clear Mustang headlight and dry black bodywork in warm light",
     width: 1536,
     height: 1024,
     kind: "concept",
-    position: "65% center",
+    position: "28% center",
   },
 };
 export const heroMedia = photography.vehicle;
@@ -65,7 +65,7 @@ export const serviceMedia: Record<
 > = {
   "interior-detail": { primary: photography.interior, layout: "split" },
   "exterior-detail": {
-    primary: photography.wash,
+    primary: photography.wheel,
     secondary: photography.vehicle,
     layout: "wide",
   },
@@ -87,7 +87,7 @@ export const serviceMedia: Record<
   },
   "ceramic-protection": { primary: photography.paint, layout: "wide" },
   "headlight-restoration": { primary: photography.headlight, layout: "close" },
-  "specialty-services": { primary: photography.wash, layout: "split" },
+  "specialty-services": { primary: photography.wheel, layout: "split" },
   "add-ons": {
     primary: photography.interior,
     secondary: photography.headlight,
@@ -111,7 +111,7 @@ export const resultsMedia = [
     href: "/services/ceramic-protection",
   },
   {
-    image: photography.wash,
+    image: photography.wheel,
     title: "Wheels and bodywork",
     href: "/services/exterior-detail",
   },
